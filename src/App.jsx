@@ -1,10 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { FinanzasPages } from "./pages/FinanzasPages";
-import { UsersPages } from "./pages/UsersPages";
-import { DetailPages } from "./pages/DetailPages";
-import { FormIngresos } from "./components/FormIngresos";
-import { EditIngresos } from "./components/EditIngresos";
-import { Navbar } from "./components/navbar";
+import { Navbar } from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
 
 function App() {
