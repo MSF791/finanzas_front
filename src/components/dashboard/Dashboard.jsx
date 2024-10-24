@@ -129,19 +129,6 @@ export function Dashboard() {
       );
 
       setFacturas(facturasPendientes);
-
-      // Procesar cada cantidad individualmente
-      facturasPendientes.forEach((factura) => {
-        let cantidad = factura.cantidad;
-        if (typeof cantidad === "string") {
-          cantidad = parseFloat(cantidad.replace(",", "."));
-        }
-        cantidad = isNaN(cantidad) ? 0 : cantidad;
-
-        // Formatear la cantidad y mostrarla en la consola
-        const cantidadFormateada = formatearMoneda(cantidad);
-        setCantidadFactura(cantidadFormateada);
-      });
     }
 
     if (logueado == 200) {
@@ -207,18 +194,25 @@ export function Dashboard() {
               No Tienes Facturas Pendientes Por Pagar
             </span>
           ) : (
-            facturas.map((factura) => (
+            facturas.map((factura) => {
+              let cantidad = factura.cantidad
+              if (typeof cantidad === 'string'){
+                cantidad = parseFloat(cantidad.replace(",","."))
+              }
+              const cantidad_formateada = formatearMoneda(cantidad)
+              return(
               <li
                 key={factura.id}
                 className="flex justify-between flex-wrap p-3 border-b-2"
               >
                 <span className="font-medium">{factura.nombre}</span>
-                <span className="text-indigo-700">{cantidadFactura}</span>
+                <span className="text-indigo-700">{cantidad_formateada}</span>
                 <span className="text-gray-500">
                   {factura.fecha_vencimiento}
                 </span>
               </li>
-            ))
+              )
+            })
           )}
         </ul>
       </div>

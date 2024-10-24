@@ -11,7 +11,6 @@ export function ListIngresos({ handleDetailClick }) {
     async function LoadIngreso() {
       const res = await GetAllIngresos();
       const ingresosUsuario = res.data.filter(ingreso => ingreso.usuario === id);
-      console.log(res)
       setIngresos(ingresosUsuario);
     }
 

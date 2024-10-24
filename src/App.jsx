@@ -7,10 +7,7 @@ function App() {
     <BrowserRouter>
       <div>
         <Routes>
-          <Route path="/" element={<Navigate to="/inicio" />} />
-          <Route path="/inicio" element={<Navbar />}>
-            
-          </Route>
+          <Route path="/" element={<Navbar/>} />
         </Routes>
         <Toaster />
       </div>
