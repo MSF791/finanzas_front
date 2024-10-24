@@ -8,6 +8,7 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<Navbar/>} />
+          <Route path="/inicio" element={<Navbar />} />
         </Routes>
         <Toaster />
       </div>
