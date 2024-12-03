@@ -47,7 +47,7 @@ export function Navbar() {
   const [selectedIdPres, setSelectedIdPres] = useState(null);
   const [selectedIdFactura, setSelectedIdFactura] = useState(null);
   const [selectedIdObjetivo, setSelectedIdObjetivo] = useState(null);
-  const { logueado } = useAuth();
+  const { logueado, VerificarToken } = useAuth();
 
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
@@ -163,7 +163,7 @@ export function Navbar() {
       case "ingresos":
         return (
           <div>
-            <h2 className="text-2xl font-semibold mb-4 text-black">Ingresos</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-black text-center">Ingresos</h2>
             <button
               className="bg-indigo-500 rounded-md px-2 py-1 flex justify-center align-middle"
               onClick={handleFormIngresoClick}
@@ -207,7 +207,7 @@ export function Navbar() {
       case "gasto":
         return (
           <div>
-            <h2 className="text-2xl font-semibold mb-4 text-black">Gastos</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-black text-center">Gastos</h2>
             <button
               className="bg-indigo-500 rounded-md px-2 py-1 flex justify-center align-middle mb-6"
               onClick={handleGastoAddClick}
@@ -434,9 +434,7 @@ export function Navbar() {
 
           {/* Search Bar */}
           <div className="flex-1 mx-4">
-            <div className="relative w-full max-w-lg mx-auto text-black">
-              <p className="text-black font-semibold text-md">Desarrollado Por: Julian Tique</p>
-            </div>
+            
           </div>
 
           {/* Login Button */}

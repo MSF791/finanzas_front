@@ -22,18 +22,38 @@ export function FormIngresos({ funcion }) {
       setValue("usuario", id);
     }
   }, [fechaActual, setValue, id]);
-
+  let loadingToast;
   const OnSubmit = handleSubmit(async (data) => {
     if (logueado == 200) {
-      await RegistroIngreso(data);
-      toast.success("Ingreso Creado Con Exito!", {
-        position: "top-center",
-        style: {
-          width: 350,
-          height: 50,
-        },
-      });
-      funcion();
+      try {
+        // Muestra el toast de cargando
+        const loadingToast = toast.loading("Guardando...", {
+          position: "top-center",
+          style: {
+            width: 350,
+            height: 50,
+          },
+        });
+        await RegistroIngreso(data);
+        toast.dismiss(loadingToast);
+        toast.success("Ingreso Creado Con Exito!", {
+          position: "top-center",
+          style: {
+            width: 350,
+            height: 50,
+          },
+        });
+        funcion();
+      } catch (error) {
+        toast.dismiss(loadingToast)
+        toast.error("Ha ocurrido un error", {
+          position:"top-center",
+          style:{
+            width:350,
+            height:50,
+          }
+        })
+      }
     }
   });
   return (
@@ -49,7 +69,8 @@ export function FormIngresos({ funcion }) {
           required: "Este Campo Es Obligatorio",
           pattern: {
             value: /^[0-9]+$/,
-            message: "No se permiten comas, puntos o espacios",
+            message:
+              "No se permiten comas, puntos o espacios y deben ser solo números",
           },
         })}
         className="bg-zinc-300 p-3 rounded-lg block w-full focus:bg-slate-50"
@@ -78,12 +99,9 @@ export function FormIngresos({ funcion }) {
       <textarea
         rows="5"
         placeholder="Notas"
-        {...register("notas", { required: true })}
+        {...register("notas")}
         className="bg-zinc-300 p-3 rounded-lg block w-full focus:bg-slate-50"
       ></textarea>
-      {errors.notas && (
-        <span className="text-red-500">Este Campo Es Obligatorio</span>
-      )}
       <input
         type="hidden"
         placeholder="Usuario"

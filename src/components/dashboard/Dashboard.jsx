@@ -195,23 +195,23 @@ export function Dashboard() {
             </span>
           ) : (
             facturas.map((factura) => {
-              let cantidad = factura.cantidad
-              if (typeof cantidad === 'string'){
-                cantidad = parseFloat(cantidad.replace(",","."))
+              let cantidad = factura.cantidad;
+              if (typeof cantidad === "string") {
+                cantidad = parseFloat(cantidad.replace(",", "."));
               }
-              const cantidad_formateada = formatearMoneda(cantidad)
-              return(
-              <li
-                key={factura.id}
-                className="flex justify-between flex-wrap p-3 border-b-2"
-              >
-                <span className="font-medium">{factura.nombre}</span>
-                <span className="text-indigo-700">{cantidad_formateada}</span>
-                <span className="text-gray-500">
-                  {factura.fecha_vencimiento}
-                </span>
-              </li>
-              )
+              const cantidad_formateada = formatearMoneda(cantidad);
+              return (
+                <li
+                  key={factura.id}
+                  className="flex justify-between flex-wrap p-3 border-b-2"
+                >
+                  <span className="font-medium">{factura.nombre}</span>
+                  <span className="text-indigo-700">{cantidad_formateada}</span>
+                  <span className="text-gray-500">
+                    {factura.fecha_vencimiento}
+                  </span>
+                </li>
+              );
             })
           )}
         </ul>
@@ -254,14 +254,19 @@ export function Dashboard() {
             objetivosAhorro.map((objetivo) => {
               const progreso =
                 (objetivo.cantidad_actual / objetivo.cantidad_objetivo) * 100;
-              let cantidad_actual = objetivo.cantidad_actual
-              let cantidad_objetivo = objetivo.cantidad_objetivo
-              if (typeof cantidad_actual === 'string' && typeof cantidad_objetivo === 'string'){
-                cantidad_actual = parseFloat(cantidad_actual.replace(",","."))
-                cantidad_objetivo = parseFloat(cantidad_objetivo.replace(",","."))
+              let cantidad_actual = objetivo.cantidad_actual;
+              let cantidad_objetivo = objetivo.cantidad_objetivo;
+              if (
+                typeof cantidad_actual === "string" &&
+                typeof cantidad_objetivo === "string"
+              ) {
+                cantidad_actual = parseFloat(cantidad_actual.replace(",", "."));
+                cantidad_objetivo = parseFloat(
+                  cantidad_objetivo.replace(",", ".")
+                );
               }
-              const cantidadO_formateada = formatearMoneda(cantidad_objetivo)
-              const cantidadA_formateada = formatearMoneda(cantidad_actual)
+              const cantidadO_formateada = formatearMoneda(cantidad_objetivo);
+              const cantidadA_formateada = formatearMoneda(cantidad_actual);
               return (
                 <li
                   key={objetivo.id}
@@ -270,7 +275,7 @@ export function Dashboard() {
                   <div className="flex justify-between">
                     <span className="font-medium">{objetivo.nombre}</span>
                     <span className="text-gray-500">
-                     Fecha Limite: {objetivo.fecha_limite}
+                      Fecha Limite: {objetivo.fecha_limite}
                     </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-4 mt-2">
@@ -280,8 +285,8 @@ export function Dashboard() {
                     ></div>
                   </div>
                   <div className="text-sm text-gray-600 mt-1">
-                    {cantidadA_formateada} / {cantidadO_formateada}{" "}
-                    (progreso: {progreso.toFixed(2)}%)
+                    {cantidadA_formateada} / {cantidadO_formateada} (progreso:{" "}
+                    {progreso.toFixed(2)}%)
                   </div>
                 </li>
               );
@@ -302,31 +307,36 @@ export function Dashboard() {
             Transacciones Recientes
           </h3>
           <ul>
-            {transaccionesFiltradas.map((transaccion, index) => (
-              <li
-                key={index}
-                className="flex justify-between flex-wrap p-3 border-b-2"
-              >
-                {transaccion.tipo === "ingreso" && (
-                  <span>{transaccion.fuente}</span>
-                )}
-                {transaccion.tipo === "gasto" && (
-                  <span>{transaccion.categoria}</span>
-                )}
-                <span
-                  className={
-                    transaccion.tipo === "ingreso"
-                      ? "text-green-500"
-                      : "text-red-500"
-                  }
-                >
-                  {transaccion.tipo === "ingreso"
-                    ? `+${formatearMoneda(transaccion.cantidad)}`
-                    : `-${formatearMoneda(transaccion.cantidad)}`}
-                </span>
-                <span className="text-gray-500">{transaccion.fecha}</span>
-              </li>
-            ))}
+            {transaccionesFiltradas.length === 0
+              ? 
+               <h1 className="ml-4 font-normal">
+                  No hay transacciones este mes
+               </h1>
+              : transaccionesFiltradas.map((transaccion, index) => (
+                  <li
+                    key={index}
+                    className="flex justify-between flex-wrap p-3 border-b-2"
+                  >
+                    {transaccion.tipo === "ingreso" && (
+                      <span>{transaccion.fuente}</span>
+                    )}
+                    {transaccion.tipo === "gasto" && (
+                      <span>{transaccion.categoria}</span>
+                    )}
+                    <span
+                      className={
+                        transaccion.tipo === "ingreso"
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }
+                    >
+                      {transaccion.tipo === "ingreso"
+                        ? `+${formatearMoneda(transaccion.cantidad)}`
+                        : `-${formatearMoneda(transaccion.cantidad)}`}
+                    </span>
+                    <span className="text-gray-500">{transaccion.fecha}</span>
+                  </li>
+                ))}
           </ul>
         </div>
       </div>

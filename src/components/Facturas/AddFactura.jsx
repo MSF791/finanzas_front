@@ -14,17 +14,38 @@ export function AddFactura({ volver }) {
   if (id) {
     setValue("usuario", id);
   }
+  let loadingToast;
   const AñadirFactura = handleSubmit(async (data) => {
     if (logueado == 200) {
-      await AgregarFactura(data);
-      toast.success("Factura Creada Con Exito!", {
-        position: "top-center",
-        style: {
-          width: 350,
-          height: 50,
-        },
-      });
-      volver();
+      try {
+        // Muestra el toast de cargando
+        const loadingToast = toast.loading("Guardando...", {
+          position: "top-center",
+          style: {
+            width: 350,
+            height: 50,
+          },
+        });
+        await AgregarFactura(data);
+        toast.dismiss(loadingToast)
+        toast.success("Factura Creada Con Exito!", {
+          position: "top-center",
+          style: {
+            width: 350,
+            height: 50,
+          },
+        });
+        volver();
+      } catch (error) {
+        toast.dismiss(loadingToast)
+        toast.error("Ha ocurrido un error", {
+          position: "top-center",
+          style: {
+            width: 350,
+            height: 50,
+          },
+        });
+      }
     }
   });
   return (
@@ -76,12 +97,9 @@ export function AddFactura({ volver }) {
         <textarea
           rows="5"
           placeholder="Notas"
-          {...register("notas", { required: true })}
+          {...register("notas")}
           className="bg-zinc-300 p-3 rounded-lg block w-full focus:bg-slate-50"
         ></textarea>
-        {errors.notas && (
-          <span className="text-red-500">Este Campo Es Obligatorio</span>
-        )}
       </div>
       <input type="hidden" value={false} />
       <input type="hidden" {...register("usuario", { required: true })} />

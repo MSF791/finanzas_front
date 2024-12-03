@@ -22,17 +22,38 @@ export function NewPresupuesto({ volver }) {
       setValue("fecha_inicio", fechaActual);
     }
   });
+  let loadingToast;
   const RegistroPresupuesto = handleSubmit(async (data) => {
     if (logueado == 200) {
-      await AñadirPresupuesto(data);
-      toast.success("Presupuesto Creado Con Exito!", {
-        position: "top-center",
-        style: {
-          width: 350,
-          height: 50,
-        },
-      });
-      volver()
+      try {
+        // Muestra el toast de cargando
+        const loadingToast = toast.loading("Guardando...", {
+          position: "top-center",
+          style: {
+            width: 350,
+            height: 50,
+          },
+        });
+        await AñadirPresupuesto(data);
+        toast.dismiss(loadingToast);
+        toast.success("Presupuesto Creado Con Exito!", {
+          position: "top-center",
+          style: {
+            width: 350,
+            height: 50,
+          },
+        });
+        volver();
+      } catch (error) {
+        toast.dismiss(loadingToast)
+        toast.error("Ha ocurrido un error", {
+          position: "top-center",
+          style: {
+            width: 350,
+            height: 50,
+          },
+        });
+      }
     }
   });
   return (
@@ -42,14 +63,14 @@ export function NewPresupuesto({ volver }) {
       onSubmit={RegistroPresupuesto}
     >
       <div>
-      <input
+        <input
           type="text"
           placeholder="Cantidad"
           {...register("cantidad", {
             required: "Este Campo Es Obligatorio",
             pattern: {
               value: /^[0-9]+$/,
-              message: "No se permiten comas, puntos o espacios",
+              message: "No se permiten comas, puntos o espacios y deben ser números",
             },
           })}
           className="bg-zinc-300 p-3 rounded-lg block w-full focus:bg-slate-50"
@@ -99,12 +120,9 @@ export function NewPresupuesto({ volver }) {
         <textarea
           rows="3"
           placeholder="Notas"
-          {...register("notas", { required: true })}
+          {...register("notas")}
           className="bg-zinc-300 p-3 rounded-lg block w-full focus:bg-slate-50"
         ></textarea>
-        {errors.notas && (
-          <span className="text-red-500">Este Campo Es Obligatorio</span>
-        )}
       </div>
       <div className="mt-6 ml-80">
         <button

@@ -1,7 +1,8 @@
 import axios from "axios";
+import { URL } from "../constants/constants";
 
 const Objetivos = axios.create({
-    baseURL: "https://finanzas-project-5xc8.onrender.com/finanzas/api/v1/objetivo/"
+    baseURL: `${URL}/finanzas/api/v1/objetivo/`
 })
 
 export const CargarObjetivos = () => Objetivos.get('/')

@@ -96,12 +96,9 @@ export function EditAhorro({ id, volver }) {
         <textarea
           rows="5"
           placeholder="Notas"
-          {...register("notas", { required: true })}
+          {...register("notas")}
           className="bg-zinc-300 p-3 rounded-lg block w-full focus:bg-slate-50"
         ></textarea>
-        {errors.notas && (
-          <span className="text-red-500">Este Campo Es Obligatorio</span>
-        )}
       </div>
       <input type="hidden" {...register("usuario", { required: true })} />
       {errors.usuario && (

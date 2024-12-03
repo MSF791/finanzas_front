@@ -23,17 +23,38 @@ export function FormAddGasto({ volver }) {
     }
   }, [fechaActual, setValue, id]);
 
+  let loadingToast;
   const RegistrarGastoSubmit = handleSubmit(async (data) => {
     if (logueado == 200) {
-      await RegistrarGasto(data);
-      toast.success("Gasto Creado Con Exito!", {
-        position: "top-center",
-        style: {
-          width: 350,
-          height: 50,
-        },
-      });
-      volver();
+      try {
+        // Muestra el toast de cargando
+        const loadingToast = toast.loading("Iniciando sesión...", {
+          position: "top-center",
+          style: {
+            width: 350,
+            height: 50,
+          },
+        });
+        await RegistrarGasto(data);
+        toast.dismiss(loadingToast);
+        toast.success("Gasto Creado Con Exito!", {
+          position: "top-center",
+          style: {
+            width: 350,
+            height: 50,
+          },
+        });
+        volver();
+      } catch (error) {
+        toast.dismiss(loadingToast);
+        toast.error("Ha ocurrido un error", {
+          position: "top-center",
+          style: {
+            width: 350,
+            height: 50,
+          },
+        });
+      }
     }
   });
   return (
@@ -50,7 +71,8 @@ export function FormAddGasto({ volver }) {
             required: "Este Campo Es Obligatorio",
             pattern: {
               value: /^[0-9]+$/,
-              message: "No se permiten comas, puntos o espacios",
+              message:
+                "No se permiten comas, puntos o espacios y deben ser numeros",
             },
           })}
           className="bg-zinc-300 p-3 rounded-lg block w-full focus:bg-slate-50"
@@ -75,12 +97,9 @@ export function FormAddGasto({ volver }) {
         <textarea
           rows="5"
           placeholder="Notas"
-          {...register("notas", { required: true })}
+          {...register("notas")}
           className="bg-zinc-300 p-3 rounded-lg block w-full focus:bg-slate-50"
         ></textarea>
-        {errors.notas && (
-          <span className="text-red-500">Este Campo Es Obligatorio</span>
-        )}
       </div>
       <div>
         <input

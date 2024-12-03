@@ -1,7 +1,8 @@
 import axios from "axios";
+import { URL } from "../constants/constants";
 
 const factura = axios.create({
-    baseURL: "https://finanzas-project-5xc8.onrender.com/finanzas/api/v1/factura/",
+    baseURL: `${URL}/finanzas/api/v1/factura/`,
 });
 
 export const ObtenerFacturas = () => factura.get('/')

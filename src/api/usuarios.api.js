@@ -1,7 +1,8 @@
 import axios from "axios";
+import { URL } from "../constants/constants";
 
 const UsuariosApi = axios.create({
-    baseURL: "https://finanzas-project-5xc8.onrender.com/finanzas/api/v1/usuario/",
+    baseURL: `${URL}/finanzas/api/v1/usuario/`,
 });
 
 export const RegisterUser = (usuario) => UsuariosApi.post('/', usuario)

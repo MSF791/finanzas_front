@@ -16,16 +16,37 @@ export function FormAhorro({ volver }) {
   if (id) {
     setValue("usuario", id);
   }
+  let loadingToast;
   const AñadirAhorro = handleSubmit(async (data) => {
-    await GuardarObjetivo(data);
-    toast.success("Factura Creada Con Exito!", {
-      position: "top-center",
-      style: {
-        width: 350,
-        height: 50,
-      },
-    });
-    volver();
+    try {
+      // Muestra el toast de cargando
+      const loadingToast = toast.loading("guardando...", {
+        position: "top-center",
+        style: {
+          width: 350,
+          height: 50,
+        },
+      });
+      await GuardarObjetivo(data);
+      toast.dismiss(loadingToast);
+      toast.success("Factura Creada Con Exito!", {
+        position: "top-center",
+        style: {
+          width: 350,
+          height: 50,
+        },
+      });
+      volver();
+    } catch (error) {
+      toast.dismiss(loadingToast)
+      toast.error("Ha ocurrido un error", {
+        position: "top-center",
+        style: {
+          width: 350,
+          height: 50,
+        },
+      });
+    }
   });
 
   const cantidadObjetivo = watch("cantidad_objetivo");
@@ -48,7 +69,7 @@ export function FormAhorro({ volver }) {
       </div>
       <div>
         <input
-          type="number"
+          type="text"
           placeholder="Cantidad Objetivo"
           {...register("cantidad_objetivo", {
             required: "Este Campo Es Obligatorio",
@@ -60,12 +81,14 @@ export function FormAhorro({ volver }) {
           className="bg-zinc-300 p-3 rounded-lg block w-full focus:bg-slate-50"
         />
         {errors.cantidad_objetivo && (
-          <span className="text-red-500">{errors.cantidad_objetivo.message}</span>
+          <span className="text-red-500">
+            {errors.cantidad_objetivo.message}
+          </span>
         )}
       </div>
       <div>
         <input
-          type="number"
+          type="text"
           placeholder="Cantidad Actual"
           {...register("cantidad_actual", {
             required: "Este Campo Es Obligatorio",
@@ -98,12 +121,9 @@ export function FormAhorro({ volver }) {
         <textarea
           rows="5"
           placeholder="Notas"
-          {...register("notas", { required: true })}
+          {...register("notas")}
           className="bg-zinc-300 p-3 rounded-lg block w-full focus:bg-slate-50"
         ></textarea>
-        {errors.notas && (
-          <span className="text-red-500">Este Campo Es Obligatorio</span>
-        )}
       </div>
       <input type="hidden" {...register("usuario", { required: true })} />
       {errors.usuario && (

@@ -12,15 +12,46 @@ export function FormUsers() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  let loadingToast;
   const OnSubmit = handleSubmit(async (data) => {
-    await RegisterUser(data);
-    toast.success("Usuario Creado Con Exito!", {
-      position: "top-center",
-      style: {
-        width: 350,
-        height: 50,
-      },
-    });
+    try {
+      // Muestra el toast de cargando
+      const loadingToast = toast.loading("Iniciando sesión...", {
+        position: "top-center",
+        style: {
+          width: 350,
+          height: 50,
+        },
+      });
+      const res = await RegisterUser(data);
+      toast.dismiss(loadingToast);
+      toast.success("Usuario Creado Con Exito!", {
+        position: "top-center",
+        style: {
+          width: 350,
+          height: 50,
+        },
+      });
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      if (error.response.data.username) {
+        toast.error("El usuario ya existe", {
+          position: "top-center",
+          style: {
+            width: 350,
+            height: 50,
+          },
+        });
+      } else if (error.response.data.email) {
+        toast.error("El correo ya existe", {
+          position: "top-center",
+          style: {
+            width: 350,
+            height: 50,
+          },
+        });
+      }
+    }
   });
   return (
     <form
@@ -46,7 +77,7 @@ export function FormUsers() {
           {...register("first_name", { required: true })}
           className="bg-zinc-300 p-3 rounded-lg block w-full focus:bg-slate-50"
         />
-        {errors.firstname && (
+        {errors.first_name && (
           <span className="text-red-500">Este Campo Es Obligatorio</span>
         )}
       </div>
@@ -111,7 +142,7 @@ export function FormUsers() {
           onClick={() => setShowPassword(!showPassword)}
           className="absolute right-3 top-4"
         >
-          {showPassword ? <FaEyeSlash/> : <FaEye/>}
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
         </button>
       </div>
       <div className="col-span-1 md:col-span-2 flex justify-center mt-8">

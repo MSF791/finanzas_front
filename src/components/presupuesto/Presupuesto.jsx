@@ -10,26 +10,41 @@ export function Presupuesto({ editar }) {
   useEffect(() => {
     async function CargarPresupuesto() {
       const respuesta = await ObtenerPresupuestos();
-      const Presupuesto = respuesta.data.filter(presupuesto => presupuesto.usuario === id);
+      const Presupuesto = respuesta.data.filter(
+        (presupuesto) => presupuesto.usuario === id
+      );
       setPresupuestos(Presupuesto);
     }
 
-    if (logueado == 200){
-        CargarPresupuesto()
+    if (logueado == 200) {
+      CargarPresupuesto();
     }
   }, [logueado, id]);
 
   const handleDeletePresupuesto = (idPres) => {
-    setPresupuestos(Prevpresupuesto => Prevpresupuesto.filter(presupuesto => presupuesto.id !== idPres));
+    setPresupuestos((Prevpresupuesto) =>
+      Prevpresupuesto.filter((presupuesto) => presupuesto.id !== idPres)
+    );
   };
 
   return (
     <div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 ml-6">
-      {presupuestos.map((presupuesto) => (
-        <CardPresupuesto key={presupuesto.id} presupuesto={presupuesto} onDelete={handleDeletePresupuesto} editar={editar}/>
-      ))}
-    </div>
+        {presupuestos.length === 0 ? (
+          <h1 className="text-black font-extrabold text-md text-center mt-4 ml-4">
+            No Hay Presupuestos registrados
+          </h1>
+        ) : (
+          presupuestos.map((presupuesto) => (
+            <CardPresupuesto
+              key={presupuesto.id}
+              presupuesto={presupuesto}
+              onDelete={handleDeletePresupuesto}
+              editar={editar}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 }

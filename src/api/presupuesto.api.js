@@ -1,7 +1,8 @@
 import axios from "axios";
+import { URL } from "../constants/constants";
 
 const Presupuesto = axios.create({
-    baseURL: "https://finanzas-project-5xc8.onrender.com/finanzas/api/v1/presupuesto/",
+    baseURL: `${URL}/finanzas/api/v1/presupuesto/`,
 });
 
 export const ObtenerPresupuestos = () => Presupuesto.get('/')

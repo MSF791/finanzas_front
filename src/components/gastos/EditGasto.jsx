@@ -53,21 +53,20 @@ export function EditGasto({ id, funcion }) {
           {...register("cantidad", { required: true })}
           className="bg-zinc-300 p-2 rounded-lg block w-full focus:bg-slate-50" 
         />
-        {errors.cantidad && <span>This Field Is Required</span>}
+        {errors.cantidad && <span>Este campo es Obligatorio</span>}
         <input
           type="text"
           placeholder="Fuente"
           {...register("categoria", { required: true })}
           className="bg-zinc-300 p-2 rounded-lg block w-full focus:bg-slate-50" 
         />
-        {errors.fuente && <span>This Field Is Required</span>}
+        {errors.fuente && <span>Este campo es Obligatorio</span>}
         <textarea
           rows="5"
           placeholder="Notas"
-          {...register("notas", { required: true })}
+          {...register("notas")}
           className="bg-zinc-300 p-2 rounded-lg block w-full focus:bg-slate-50" 
         ></textarea>
-        {errors.notas && <span>This Field Is Required</span>}
 
         <input type="hidden" {...register("fecha")} />
         <input type="hidden" {...register("usuario")} />

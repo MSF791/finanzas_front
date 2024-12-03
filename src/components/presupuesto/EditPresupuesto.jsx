@@ -75,10 +75,9 @@ export function EditPresupuesto({ id, funcion }) {
         <textarea
           rows="5"
           placeholder="Notas"
-          {...register("notas", { required: true })}
+          {...register("notas")}
           className="bg-zinc-300 p-2 rounded-lg block w-full focus:bg-slate-50"
         ></textarea>
-        {errors.notas && <span>Este Campo Es Obligatorio</span>}
 
         <input type="hidden" {...register("fecha_inicio")} />
         <input type="hidden" {...register("usuario")} />

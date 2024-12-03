@@ -1,7 +1,8 @@
 import axios from "axios";
+import { URL } from "../constants/constants";
 
 const LoginApi = axios.create({
-    baseURL: "https://finanzas-project-5xc8.onrender.com/finanzas/api/v1/token/",
+    baseURL: `${URL}/finanzas/api/v1/token/`,
 });
 
 export const DecodeToken = (token) => LoginApi.post('load/', {token})

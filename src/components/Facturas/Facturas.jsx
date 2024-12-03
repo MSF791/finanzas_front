@@ -9,7 +9,9 @@ export function Facturas({ editar }) {
   useEffect(() => {
     async function LoadFacturas() {
       const res = await ObtenerFacturas();
-      const GastoFacturas = res.data.filter(factura => factura.usuario === id);
+      const GastoFacturas = res.data.filter(
+        (factura) => factura.usuario === id
+      );
       setFacturas(GastoFacturas);
     }
     if (logueado == 200) {
@@ -18,20 +20,26 @@ export function Facturas({ editar }) {
   }, [logueado]);
 
   const handleDeleteFactura = (idFactura) => {
-      setFacturas((prevFacturas) =>
+    setFacturas((prevFacturas) =>
       prevFacturas.filter((factura) => factura.id !== idFactura)
     );
   };
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 ml-6">
-      {facturas.map((factura) => (
-        <CardFactura
-          key={factura.id}
-          factura={factura}
-          onDelete={handleDeleteFactura}
-          editar={editar}
-        />
-      ))}
+      {facturas.length === 0 ? (
+        <h1 className="text-black font-extrabold text-xl text-center mt-4 ml-4">
+          No Hay Facturas registradas
+        </h1>
+      ) : (
+        facturas.map((factura) => (
+          <CardFactura
+            key={factura.id}
+            factura={factura}
+            onDelete={handleDeleteFactura}
+            editar={editar}
+          />
+        ))
+      )}
     </div>
   );
 }
