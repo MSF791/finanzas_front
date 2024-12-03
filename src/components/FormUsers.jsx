@@ -16,7 +16,7 @@ export function FormUsers() {
   const OnSubmit = handleSubmit(async (data) => {
     try {
       // Muestra el toast de cargando
-      const loadingToast = toast.loading("Iniciando sesión...", {
+      const loadingToast = toast.loading("Guardando...", {
         position: "top-center",
         style: {
           width: 350,
